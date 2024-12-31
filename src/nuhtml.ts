@@ -21,7 +21,7 @@ document.body.appendChild(form)
 
 form.submit()
 
-document.body.removeChild(content)
-document.body.removeChild(showsource)
+while (form.firstChild) {
+  form.removeChild(form.firstChild);
+}
 document.body.removeChild(form)
-
