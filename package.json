@@ -1,0 +1,15 @@
+{
+  "name": "my-bookmarklets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "bookmarklets-cli --watch src/*.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "bookmarklets-cli": "^1.1.1"
+  }
+}
