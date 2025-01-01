@@ -22,6 +22,6 @@ document.body.appendChild(form)
 form.submit()
 
 while (form.firstChild) {
-  form.removeChild(form.firstChild);
+  form.removeChild(form.firstChild)
 }
 document.body.removeChild(form)

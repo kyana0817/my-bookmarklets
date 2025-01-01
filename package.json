@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "bookmarklets-cli": "^1.1.1"
   }
 }
