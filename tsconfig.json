@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "allowUnreachableCode": false,
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strict": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM"],
+    "moduleResolution": "node",
+    "declaration": true,
+    "pretty": true,
+    "sourceMap": false,
+    "esModuleInterop": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    // "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "removeComments": true,
+    "isolatedModules": true,
+    // "noEmit": true,
+    // "noEmitOnError": true,
+    "outDir": "lib",
+    "importHelpers": false,
+    "module": "commonjs",
+    "paths": {
+      "@/*": ["./src"]
+    }
+  },
+  "include": ["src/**/*", "build.ts"],
+  "exclude": ["node_modules", "lib", "esm"]
+}

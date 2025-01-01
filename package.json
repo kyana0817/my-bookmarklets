@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
+    "build": "tsx build.ts",
     "watch": "bookmarklets-cli --watch src/*.ts"
   },
   "keywords": [],
@@ -11,6 +13,9 @@
   "license": "ISC",
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "bookmarklets-cli": "^1.1.1"
+    "@types/node": "^22.5.0",
+    "bookmarklets-cli": "^1.1.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.5.4"
   }
 }
