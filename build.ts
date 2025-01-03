@@ -52,7 +52,7 @@ const changeExtensio = (file: string) => {
 
     sources.push({
       name: file,
-      description: buf.join(''),
+      description: buf.join('\n'),
     })
   }
   const output = JSON.stringify(sources)

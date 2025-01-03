@@ -1,6 +1,1 @@
-[
-  {
-    "path": "./dist/nuhtml.js",
-    "description": "# Nu Html Checkerhttps://validator.w3.org/nu/現在のページをNu Html Checkerでチェックします。"
-  }
-]
+[{"name":"nuhtml.js","description":"# Nu Html Checker\nhttps://validator.w3.org/nu/\n現在のページをNu Html Checkerでチェックします。"}]
