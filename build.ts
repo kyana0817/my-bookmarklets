@@ -22,7 +22,6 @@ const changeExtensio = (file: string) => {
   const files = await fs.readdir(base)
   const sources = []
   for (const file of files) {
-    const distPath = `${base}/${file}`
     const srcPath = `${source}/${changeExtensio(file)}`
     const reader = readline.createInterface({
       input: createReadStream(srcPath),
@@ -52,7 +51,7 @@ const changeExtensio = (file: string) => {
     })
 
     sources.push({
-      path: distPath,
+      name: file,
       description: buf.join(''),
     })
   }
