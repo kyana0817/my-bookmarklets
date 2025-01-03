@@ -1,3 +1,9 @@
+;`+
+# Nu Html Checker
+https://validator.w3.org/nu/
+現在のページをNu Html Checkerでチェックします。
++`
+
 const doc = `<!DOCTYPE html><html lang="ja">${document.documentElement.innerHTML}</html>`
 
 const form: HTMLFormElement = document.createElement('form')
