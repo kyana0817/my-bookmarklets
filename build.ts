@@ -70,10 +70,8 @@ const changeExtensio = (file: string) => {
 
     // Add description in blockquote format
     const descriptionLines = source.description.split('\n')
-    for (const line of descriptionLines) {
-      markdown += `> ${line}\n`
-    }
-    markdown += '\n'
+    markdown += descriptionLines.map((line) => `> ${line}`).join('\n')
+    markdown += '\n\n'
   }
 
   await fs.writeFile(markdownPath, markdown)
