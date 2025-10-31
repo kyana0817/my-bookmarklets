@@ -1,8 +1,8 @@
-import fs from 'node:fs/promises'
+import { exec } from 'node:child_process'
 import { createReadStream } from 'node:fs'
+import fs from 'node:fs/promises'
 import process from 'node:process'
 import readline from 'node:readline'
-import { exec } from 'node:child_process'
 import { promisify } from 'node:util'
 const path = './output.json'
 const base = './dist'
@@ -57,4 +57,25 @@ const changeExtensio = (file: string) => {
   }
   const output = JSON.stringify(sources)
   await fs.writeFile(path, output)
+
+  // Generate Markdown file
+  const markdownPath = './README.md'
+  let markdown = '# Bookmarklets\n\n'
+  for (const source of sources) {
+    const distPath = `./dist/${source.name}`
+    const bookmarkletCode = await fs.readFile(distPath, 'utf-8')
+
+    // Add link with filename as display text
+    markdown += `[${source.name}](${bookmarkletCode.trim()})\n\n`
+
+    // Add description in blockquote format
+    const descriptionLines = source.description.split('\n')
+    for (const line of descriptionLines) {
+      markdown += `> ${line}\n`
+    }
+    markdown += '\n'
+  }
+
+  await fs.writeFile(markdownPath, markdown)
+  console.log('Markdown file generated!')
 })()
