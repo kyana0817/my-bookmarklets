@@ -59,7 +59,7 @@ const changeExtensio = (file: string) => {
   await fs.writeFile(path, output)
 
   // Generate Markdown file
-  const markdownPath = './README.md'
+  const markdownPath = './bookmarklets.md'
   let markdown = '# Bookmarklets\n\n'
   for (const source of sources) {
     const distPath = `./dist/${source.name}`
