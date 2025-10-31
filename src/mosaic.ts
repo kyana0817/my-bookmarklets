@@ -1,5 +1,5 @@
 ;`+
-# Mosaic ascii art generate
+## Mosaic ascii art generate
 画面右下に生成されるドロップエリアに画像をドロップすると、その画像をモザイクアートに変換して表示します。
 ※未完成です。
 +`

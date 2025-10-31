@@ -65,8 +65,8 @@ const changeExtensio = (file: string) => {
     const distPath = `./dist/${source.name}`
     const bookmarkletCode = await fs.readFile(distPath, 'utf-8')
 
-    // Add link with filename as display text
-    markdown += `[${source.name}](${bookmarkletCode.trim()})\n\n`
+    // Add link with filename as display text using HTML anchor tag
+    markdown += `<a href="${bookmarkletCode.trim()}">${source.name}</a>\n\n`
 
     // Add description in blockquote format
     const descriptionLines = source.description.split('\n')
