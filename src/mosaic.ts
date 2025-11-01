@@ -1,7 +1,6 @@
 ;`+
 ## Mosaic ascii art generate
 画面右下に生成されるドロップエリアに画像をドロップすると、その画像をモザイクアートに変換して表示します。
-※未完成です。
 +`
 
 const sheet = new CSSStyleSheet()
@@ -229,15 +228,26 @@ const mosiac = (imageData: ImageData, scale: number) => {
     let line = ''
     for (let x = 0; x < width; x += scale) {
       let total = 0
+      let count = 0
       for (let i = 0; i < scale; i++) {
         for (let j = 0; j < scale; j++) {
+          // 境界チェックを追加
+          if (y + i >= height || x + j >= width) continue
           const idx = (y + i) * width + (x + j)
-          total += data[idx * 4]
+          const pixelValue = data[idx * 4]
+          // undefinedチェック
+          if (pixelValue !== undefined) {
+            total += pixelValue
+            count++
+          }
         }
       }
-      const avg = total / (scale * scale)
+      // ゼロ除算を防ぐ
+      const avg = count > 0 ? total / count : 0
       const index = Math.floor((avg * brights.length) / 256)
-      line += brights[index]
+      // 配列の範囲外アクセスを防ぐ
+      const safeIndex = Math.max(0, Math.min(index, brights.length - 1))
+      line += brights[safeIndex]
     }
     const span = document.createElement('span')
     span.textContent = line
@@ -282,7 +292,6 @@ const createDom = () => {
 
   const droparea = document.createElement('div')
   droparea.classList.add('droparea')
-  droparea.draggable = true
   const dropareaInner = document.createElement('div')
   dropareaInner.classList.add('droparea-inner')
   dropareaInner.textContent = 'Drop image files here'
@@ -350,25 +359,45 @@ const createDom = () => {
     previewDialog.dataset.fullsize =
       previewDialog.dataset.fullsize === 'true' ? 'false' : 'true'
   }
+  droparea.ondragenter = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+  }
+  droparea.ondragover = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (e.dataTransfer) {
+      e.dataTransfer.dropEffect = 'copy'
+    }
+  }
   droparea.ondrop = async (e) => {
-    console.log(e)
     e.preventDefault()
     e.stopPropagation()
     if (!e.dataTransfer) return
 
-    for (let i = 0; i < e.dataTransfer.items.length; i++) {
-      const item = e.dataTransfer.items[i]
-      if (item.kind !== 'file' || !item.type.startsWith('image')) continue
-      const file = item.getAsFile()
+    const files = Array.from(e.dataTransfer.files)
+    console.log('Dropped files:', files)
+    
+    for (const file of files) {
+      if (!file.type.startsWith('image/')) {
+        console.log('Skipping non-image file:', file.name)
+        continue
+      }
+      
+      console.log('Processing image:', file.name)
       const canvas = document.createElement('canvas')
       const ctx = canvas.getContext('2d')
 
-      if (!file || !ctx) continue
-      const buf = await file.arrayBuffer()
-      const blob = new Blob([buf], { type: file.type })
+      if (!ctx) {
+        console.error('Failed to get canvas context')
+        continue
+      }
+      
       const image = new Image()
-      image.src = URL.createObjectURL(blob)
+      const imageUrl = URL.createObjectURL(file)
+      
       image.onload = () => {
+        console.log('Image loaded:', file.name, `${image.width}x${image.height}`)
         canvas.width = image.width
         canvas.height = image.height
         ctx.drawImage(image, 0, 0)
@@ -376,13 +405,16 @@ const createDom = () => {
           file.name,
           ctx.getImageData(0, 0, image.width, image.height),
         )
-        URL.revokeObjectURL(image.src)
+        URL.revokeObjectURL(imageUrl)
       }
+      
+      image.onerror = (err) => {
+        console.error('Failed to load image:', file.name, err)
+        URL.revokeObjectURL(imageUrl)
+      }
+      
+      image.src = imageUrl
     }
-  }
-  droparea.ondragover = (e) => {
-    e.preventDefault()
-    e.stopPropagation()
   }
   dialog.appendChild(droparea)
   shadow.appendChild(dialog)
