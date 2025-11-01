@@ -57,23 +57,4 @@ const changeExtensio = (file: string) => {
   }
   const output = JSON.stringify(sources)
   await fs.writeFile(path, output)
-
-  // Generate Markdown file
-  const markdownPath = './bookmarklets.md'
-  let markdown = '# Bookmarklets\n\n'
-  for (const source of sources) {
-    const distPath = `./dist/${source.name}`
-    const bookmarkletCode = await fs.readFile(distPath, 'utf-8')
-
-    // Add link with filename as display text using HTML anchor tag
-    markdown += `<a href="${bookmarkletCode.trim()}">${source.name}</a>\n\n`
-
-    // Add description in blockquote format
-    const descriptionLines = source.description.split('\n')
-    markdown += descriptionLines.map((line) => `> ${line}`).join('\n')
-    markdown += '\n\n'
-  }
-
-  await fs.writeFile(markdownPath, markdown)
-  console.log('Markdown file generated!')
 })()
